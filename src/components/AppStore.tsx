@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { AppInfo, StoreData } from '../types';
 import AppCard from './AppCard';
+import sampleStore from '../../assets/sample-store';
 
 interface AppStoreProps {
   storeUrl?: string;
@@ -29,20 +30,27 @@ export const AppStore: React.FC<AppStoreProps> = ({
       const response = await fetch(storeUrl);
       
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        // If remote store.json is not available, use local sample data
+        console.log('Remote store not available, using local sample data');
+        setApps(sampleStore.apps);
+        return;
       }
       
       const storeData: StoreData = await response.json();
       setApps(storeData.apps);
     } catch (err) {
       console.error('Failed to fetch apps:', err);
-      setError(err instanceof Error ? err.message : 'Failed to load apps');
       
-      // Show alert to user
+      // Fallback to local sample data
+      console.log('Using fallback sample data');
+      setApps(sampleStore.apps);
+      setError('Using offline data - some features may be limited');
+      
+      // Show informative alert
       Alert.alert(
-        'Connection Error',
-        'Failed to load apps from store. Please check your internet connection.',
-        [{ text: 'Retry', onPress: () => fetchApps() }, { text: 'Cancel' }]
+        'Offline Mode',
+        'Could not connect to app store. Showing sample apps. Please check your internet connection for the latest apps.',
+        [{ text: 'Retry', onPress: () => fetchApps() }, { text: 'Continue Offline' }]
       );
     } finally {
       setLoading(false);

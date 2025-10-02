@@ -21,11 +21,20 @@ export class DownloadManager {
     onProgress?: (progress: number) => void
   ): Promise<boolean> {
     try {
+      console.log('📁 DOWNLOAD MANAGER: Starting download process...');
+      console.log('📱 App:', appName, 'v' + version);
+      console.log('🔗 URL:', url);
+      
       // Check and request storage permissions first
+      console.log('🔐 DOWNLOAD MANAGER: Checking permissions...');
       const hasPermissions = await PermissionManager.ensureAllPermissions();
+      
       if (!hasPermissions) {
+        console.log('❌ DOWNLOAD MANAGER: Storage access DENIED - Cannot proceed');
         return false;
       }
+      
+      console.log('✅ DOWNLOAD MANAGER: Storage access GRANTED - Proceeding with download');
 
       const fileName = this.generateFileName(appName, version);
       const downloadPath = `${this.getDownloadsPath()}/${fileName}`;
