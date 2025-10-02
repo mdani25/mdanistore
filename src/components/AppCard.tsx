@@ -181,14 +181,14 @@ const styles = StyleSheet.create({
   },
   appCategory: {
     fontSize: 12,
-    color: '#2196F3',
-    backgroundColor: '#e3f2fd',
+    color: '#fbc531',
+    backgroundColor: '#fff9e6',
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 4,
   },
   downloadButton: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#fbc531',
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 8,

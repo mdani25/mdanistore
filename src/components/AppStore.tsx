@@ -77,7 +77,7 @@ export const AppStore: React.FC<AppStoreProps> = ({
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#2196F3" />
+        <ActivityIndicator size="large" color="#fbc531" />
         <Text style={styles.loadingText}>Loading apps...</Text>
       </View>
     );
@@ -86,8 +86,8 @@ export const AppStore: React.FC<AppStoreProps> = ({
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>MDani Store</Text>
-        <Text style={styles.subtitle}>Discover amazing apps</Text>
+        <Text style={styles.title}>MD'ani Store</Text>
+        <Text style={styles.subtitle}>Discover amazing MD'ani apps!!</Text>
       </View>
       
       <FlatList
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   header: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#fbc531',
     paddingTop: 20,
     paddingBottom: 20,
     paddingHorizontal: 16,
