@@ -12,7 +12,14 @@ export class PermissionManager {
     }
 
     try {
-      // For Android 6.0+ we need runtime permissions
+      // Android 13+ (API 33+) uses scoped storage - no WRITE_EXTERNAL_STORAGE needed for Downloads
+      if (Platform.Version >= 33) {
+        console.log('🆕 Android 13+ detected - Using scoped storage (no permission needed for Downloads)');
+        console.log('✅ STORAGE ACCESS: TRUE - Scoped storage allows Downloads directory access');
+        return true;
+      }
+      
+      // For Android 6.0+ to Android 12 (API 23-32) we need runtime permissions
       if (Platform.Version >= 23) {
         console.log('🔐 Requesting WRITE_EXTERNAL_STORAGE permission...');
         
@@ -59,6 +66,13 @@ export class PermissionManager {
     }
 
     try {
+      // Android 13+ (API 33+) uses scoped storage - no WRITE_EXTERNAL_STORAGE needed for Downloads
+      if (Platform.Version >= 33) {
+        console.log('🆕 Android 13+ detected - Scoped storage enabled');
+        console.log('✅ STORAGE ACCESS CHECK: TRUE - Downloads directory access available');
+        return true;
+      }
+      
       if (Platform.Version >= 23) {
         const hasPermission = await PermissionsAndroid.check(
           PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE

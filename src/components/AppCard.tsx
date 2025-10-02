@@ -37,9 +37,16 @@ export const AppCard: React.FC<AppCardProps> = ({ app }) => {
       if (success) {
         setDownloadStatus(DownloadStatus.COMPLETED);
         Alert.alert(
-          'Download Complete',
-          `${app.name} has been downloaded successfully. The installer will open now.`,
-          [{ text: 'OK' }]
+          'Download Complete! 🎉',
+          `${app.name} has been downloaded successfully!\n\n📁 Check your Downloads folder in File Manager to find the APK file.\n\n💡 Tap the APK file to install the app.`,
+          [{ 
+            text: 'OK', 
+            onPress: () => {
+              // Reset download button to allow re-download if needed
+              setDownloadStatus(DownloadStatus.IDLE);
+              setDownloadProgress(0);
+            }
+          }]
         );
       } else {
         setDownloadStatus(DownloadStatus.ERROR);
@@ -111,7 +118,7 @@ export const AppCard: React.FC<AppCardProps> = ({ app }) => {
       <TouchableOpacity
         style={getButtonStyle()}
         onPress={handleDownload}
-        disabled={downloadStatus === DownloadStatus.DOWNLOADING || downloadStatus === DownloadStatus.COMPLETED}
+        disabled={downloadStatus === DownloadStatus.DOWNLOADING}
       >
         <Text style={styles.downloadButtonText}>
           {getButtonText()}

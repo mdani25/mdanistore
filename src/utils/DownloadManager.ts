@@ -4,7 +4,13 @@ import { PermissionManager } from './PermissionManager';
 
 export class DownloadManager {
   private getDownloadsPath(): string {
-    // Use the public Downloads directory
+    // Use the public Downloads directory - accessible on all Android versions
+    // On Android 13+, this works with scoped storage without special permissions
+    console.log('📁 Using Downloads directory:', RNFS.DownloadDirectoryPath);
+    console.log('📱 Android API Level:', Platform.Version);
+    
+    const apiLevel = typeof Platform.Version === 'number' ? Platform.Version : parseInt(Platform.Version as string, 10);
+    console.log('🔧 Storage approach:', apiLevel >= 33 ? 'Scoped Storage (Android 13+)' : 'Traditional Storage');
     return RNFS.DownloadDirectoryPath;
   }
 

@@ -27,25 +27,27 @@ export const AppStore: React.FC<AppStoreProps> = ({
   const fetchApps = async () => {
     try {
       setError(null);
-      const response = await fetch(storeUrl);
-      if (response.ok) {
-        console.log('Remote store is available');
-        return response;
-      }
-      if (!response.ok) {
-        // If remote store.json is not available, use local sample data
-        console.log('Remote store not available, using local sample data');
-        setApps(sampleStore.apps);
-        return;
-      }
+      console.log('🔄 Fetching apps from:', storeUrl);
       
-      const storeData: StoreData = await response.json();
-      setApps(storeData.apps);
+      const response = await fetch(storeUrl);
+      
+      if (response.ok) {
+        console.log('✅ Remote store is available');
+        const storeData: StoreData = await response.json();
+        console.log('📱 Loaded', storeData.apps.length, 'apps from remote store');
+        setApps(storeData.apps);
+      } else {
+        // If remote store.json is not available, use local sample data
+        console.log('❌ Remote store not available, using local sample data');
+        console.log('📱 Loading', sampleStore.apps.length, 'sample apps');
+        setApps(sampleStore.apps);
+        setError('Using offline data - some features may be limited');
+      }
     } catch (err) {
-      console.error('Failed to fetch apps:', err);
+      console.error('❌ Failed to fetch apps:', err);
       
       // Fallback to local sample data
-      console.log('Using fallback sample data');
+      console.log('📱 Using fallback sample data -', sampleStore.apps.length, 'apps loaded');
       setApps(sampleStore.apps);
       setError('Using offline data - some features may be limited');
       
