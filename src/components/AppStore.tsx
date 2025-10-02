@@ -28,7 +28,10 @@ export const AppStore: React.FC<AppStoreProps> = ({
     try {
       setError(null);
       const response = await fetch(storeUrl);
-      
+      if (response.ok) {
+        console.log('Remote store is available');
+        return response;
+      }
       if (!response.ok) {
         // If remote store.json is not available, use local sample data
         console.log('Remote store not available, using local sample data');
