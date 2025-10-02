@@ -1,0 +1,56 @@
+{
+  "storeVersion": "1.0.0",
+  "lastUpdated": "2025-10-02T00:00:00Z",
+  "apps": [
+    {
+      "id": "com.mdani.calculator",
+      "name": "MDani Calculator",
+      "version": "1.0.0",
+      "description": "A clean and simple calculator app with basic arithmetic operations and a beautiful Material Design interface.",
+      "iconUrl": "https://raw.githubusercontent.com/mdani25/mdanistore-apps/main/icons/i1.png",
+      "apkUrl": "https://github.com/mdani25/mdanistore-apps/releases/download/v1.0.0/MDaniCalculator.apk",
+      "packageName": "com.mdani.calculator",
+      "size": "4.2 MB",
+      "minAndroidVersion": "21",
+      "category": "Productivity",
+      "screenshots": [
+        "https://raw.githubusercontent.com/mdani25/mdanistore-apps/main/screenshots/ss1.png"
+      ],
+      "changelog": "- Initial release\n- Basic arithmetic operations\n- Clean Material Design interface"
+    },
+    {
+      "id": "com.mdani.expensetracker",
+      "name": "My Expense Tracker",
+      "version": "2.0.0",
+      "description": "Track your daily expenses and manage your budget with this simple and intuitive expense tracking app.",
+      "iconUrl": "https://raw.githubusercontent.com/mdani25/mdanistore-apps/main/icons/expensetracker.png",
+      "apkUrl": "https://github.com/mdani25/mdanistore-apps/releases/download/v2.0.0/MyExpenseTracker.apk",
+      "packageName": "com.mdani.expensetracker",
+      "size": "6.1 MB",
+      "minAndroidVersion": "21",
+      "category": "Finance",
+      "screenshots": [
+        "https://raw.githubusercontent.com/mdani25/mdanistore-apps/main/screenshots/expensetracker1.png"
+      ],
+      "changelog": "- Major UI redesign\n- Added budget planning\n- Enhanced reporting features\n- Performance improvements"
+    },
+    {
+      "id": "com.example.weather",
+      "name": "Weather Today",
+      "version": "3.0.1",
+      "description": "Beautiful weather app with 7-day forecast, radar maps, and severe weather alerts. Get accurate weather information for your location.",
+      "iconUrl": "https://raw.githubusercontent.com/yourusername/mdanistore-apps/main/icons/weather.png",
+      "apkUrl": "https://github.com/yourusername/mdanistore-apps/releases/download/weather-v3.0.1/weather-v3.0.1.apk",
+      "packageName": "com.example.weather",
+      "size": "12.1 MB",
+      "minAndroidVersion": "24",
+      "category": "Weather",
+      "screenshots": [
+        "https://raw.githubusercontent.com/yourusername/mdanistore-apps/main/screenshots/weather1.png",
+        "https://raw.githubusercontent.com/yourusername/mdanistore-apps/main/screenshots/weather2.png",
+        "https://raw.githubusercontent.com/yourusername/mdanistore-apps/main/screenshots/weather3.png"
+      ],
+      "changelog": "- New radar feature\n- Improved location detection\n- Bug fixes and stability improvements"
+    }
+  ]
+}

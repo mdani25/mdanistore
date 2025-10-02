@@ -1,21 +1,172 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# MDani Store 📱
 
-# Getting Started
+Your personal Android app store built with React Native. Download and install APK files directly to your device.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## Features
 
-## Step 1: Start Metro
+- 🔍 Browse apps with detailed information (name, icon, version, description)
+- 📥 Direct APK download to Downloads folder using react-native-fs
+- 📱 Automatic APK installer launch after download
+- 🔒 Runtime permission handling for storage and installation
+- 🎨 Beautiful Material Design interface
+- 🔄 Pull-to-refresh app list
+- 📊 Download progress tracking
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## Requirements
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+- React Native development environment
+- Android device or emulator (API level 21+)
+- Enable "Install unknown apps" permission for MDani Store
 
-```sh
-# Using npm
+## Installation & Setup
+
+### 1. Clone and Install Dependencies
+
+```bash
+git clone <your-repo>
+cd mdanistore
+npm install
+```
+
+### 2. Install react-native-fs (Already Done)
+
+```bash
+npm install react-native-fs
+```
+
+### 3. Build and Run
+
+```bash
+# Start Metro
 npm start
 
-# OR using Yarn
-yarn start
+# Run on Android (in another terminal)
+npx react-native run-android
+```
+
+## Backend Setup (Free Hosting)
+
+### 1. GitHub Repository Setup
+
+Your apps repository: `https://github.com/mdani25/mdanistore-apps`
+
+Repository structure:
+```
+mdanistore-apps/
+├── store.json          # Main app store data
+├── icons/              # App icons
+│   ├── calculator.png
+│   └── expensetracker.png
+└── screenshots/        # App screenshots
+    ├── calculator1.png
+    ├── expensetracker1.png
+    └── expensetracker2.png
+```
+
+### 2. Upload APK Files to GitHub Releases ✅
+
+1. ✅ Repository created: `mdanistore-apps`
+2. ✅ Apps uploaded:
+   - **v1.0.0**: `MDaniCalculator.apk` - `https://github.com/mdani25/mdanistore-apps/releases/download/v1.0.0/MDaniCalculator.apk`
+   - **v2.0.0**: `MyExpenseTracker.apk` - `https://github.com/mdani25/mdanistore-apps/releases/download/v2.0.0/MyExpenseTracker.apk`
+
+### 3. Create store.json
+
+Create `store.json` in your repository root:
+
+```json
+{
+  "storeVersion": "1.0.0",
+  "lastUpdated": "2025-10-02T00:00:00Z",
+  "apps": [
+    {
+      "id": "com.mdani.calculator",
+      "name": "MDani Calculator",
+      "version": "1.0.0",
+      "description": "A clean and simple calculator app",
+      "iconUrl": "https://raw.githubusercontent.com/mdani25/mdanistore-apps/main/icons/calculator.png",
+      "apkUrl": "https://github.com/mdani25/mdanistore-apps/releases/download/v1.0.0/MDaniCalculator.apk",
+      "packageName": "com.mdani.calculator",
+      "size": "4.2 MB",
+      "minAndroidVersion": "21",
+      "category": "Productivity"
+    }
+  ]
+}
+```
+
+### 4. Update App Configuration
+
+The app is already configured to use your repository:
+
+```typescript
+const storeUrl = 'https://raw.githubusercontent.com/mdani25/mdanistore-apps/main/store.json';
+```
+
+### Alternative: Deploy to Netlify
+
+1. Upload your app assets to Netlify
+2. Host `store.json` on Netlify with APK files
+3. Use Netlify URL in your app
+
+## User Instructions
+
+### Enable Install Unknown Apps
+
+For users to install APKs from MDani Store:
+
+1. Go to **Settings** > **Apps** > **MDani Store**
+2. Tap **Install unknown apps**
+3. Toggle **Allow from this source**
+
+Or when prompted during installation:
+1. Tap **Settings** when the install is blocked
+2. Enable **Install unknown apps**
+3. Return to the installer
+
+## Project Structure
+
+```
+src/
+├── components/
+│   ├── AppStore.tsx     # Main store component
+│   └── AppCard.tsx      # Individual app display
+├── types/
+│   └── index.ts         # TypeScript interfaces
+└── utils/
+    ├── DownloadManager.ts    # APK download logic
+    └── PermissionManager.ts  # Runtime permissions
+```
+
+## Permissions
+
+The app requests these permissions:
+
+- `INTERNET` - Fetch app data and download APKs
+- `WRITE_EXTERNAL_STORAGE` - Save APKs to Downloads folder
+- `READ_EXTERNAL_STORAGE` - Read downloaded files
+- `REQUEST_INSTALL_PACKAGES` - Install APKs (Android 8+)
+
+## Troubleshooting
+
+### Downloads Fail
+- Check internet connection
+- Verify APK URL is accessible
+- Ensure storage permissions are granted
+
+### Installation Fails
+- Enable "Install unknown apps" in Settings
+- Check if APK file exists in Downloads folder
+- Verify APK is not corrupted
+
+### App List Not Loading
+- Check internet connection
+- Verify store.json URL is accessible
+- Pull down to refresh the list
+
+## License
+
+MIT License - feel free to modify and distribute.
 ```
 
 ## Step 2: Build and run your app

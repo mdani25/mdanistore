@@ -1,0 +1,162 @@
+import React, { useState, useEffect } from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  ActivityIndicator,
+  Alert,
+  RefreshControl,
+} from 'react-native';
+import { AppInfo, StoreData } from '../types';
+import AppCard from './AppCard';
+
+interface AppStoreProps {
+  storeUrl?: string;
+}
+
+export const AppStore: React.FC<AppStoreProps> = ({ 
+  storeUrl = 'https://raw.githubusercontent.com/mdani25/mdanistore-apps/main/store.json' 
+}) => {
+  const [apps, setApps] = useState<AppInfo[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchApps = async () => {
+    try {
+      setError(null);
+      const response = await fetch(storeUrl);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const storeData: StoreData = await response.json();
+      setApps(storeData.apps);
+    } catch (err) {
+      console.error('Failed to fetch apps:', err);
+      setError(err instanceof Error ? err.message : 'Failed to load apps');
+      
+      // Show alert to user
+      Alert.alert(
+        'Connection Error',
+        'Failed to load apps from store. Please check your internet connection.',
+        [{ text: 'Retry', onPress: () => fetchApps() }, { text: 'Cancel' }]
+      );
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  };
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    fetchApps();
+  };
+
+  useEffect(() => {
+    fetchApps();
+  }, []);
+
+  const renderAppItem = ({ item }: { item: AppInfo }) => (
+    <AppCard app={item} />
+  );
+
+  const renderEmptyState = () => (
+    <View style={styles.emptyState}>
+      <Text style={styles.emptyText}>
+        {error ? 'Failed to load apps' : 'No apps available'}
+      </Text>
+      {error && (
+        <Text style={styles.errorText}>{error}</Text>
+      )}
+    </View>
+  );
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#2196F3" />
+        <Text style={styles.loadingText}>Loading apps...</Text>
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>MDani Store</Text>
+        <Text style={styles.subtitle}>Discover amazing apps</Text>
+      </View>
+      
+      <FlatList
+        data={apps}
+        renderItem={renderAppItem}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={styles.listContainer}
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        ListEmptyComponent={renderEmptyState}
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f5f5',
+  },
+  header: {
+    backgroundColor: '#2196F3',
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingHorizontal: 16,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: 'white',
+    marginBottom: 4,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: 'rgba(255, 255, 255, 0.8)',
+  },
+  listContainer: {
+    padding: 16,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f5f5f5',
+  },
+  loadingText: {
+    marginTop: 16,
+    fontSize: 16,
+    color: '#666',
+  },
+  emptyState: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 40,
+  },
+  emptyText: {
+    fontSize: 18,
+    color: '#666',
+    marginBottom: 8,
+  },
+  errorText: {
+    fontSize: 14,
+    color: '#f44336',
+    textAlign: 'center',
+    marginTop: 8,
+  },
+});
+
+export default AppStore;
